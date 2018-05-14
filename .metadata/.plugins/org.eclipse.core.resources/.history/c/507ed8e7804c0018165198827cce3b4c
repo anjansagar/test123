@@ -1,0 +1,139 @@
+package com.qentelli.fast.stepdefs;
+
+import cucumber.api.DataTable;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+
+public class TC_001_StepDefs {
+	Filezilla fz = new Filezilla();
+	XML xml = new XML();
+	AdbCommands adb = new AdbCommands();
+
+	@Given("^I ensure There is no check open on the device_TC1$")
+	public void i_ensure_There_is_no_check_open_on_the_device() throws Throwable {
+
+	}
+
+	@Given("^I verify FileZilla is available_TC1$")
+	public void i_verify_FileZilla_is_available() throws Throwable {
+		// downloading file to update xml
+		fz.getFile("192.168.127.170", "/data/ziosk/settings/zApp_App_Android.xml",
+				"C:\\Users\\sagar\\Desktop\\Task\\zApp_App_Android.xml");
+		fz.getFile("192.168.127.170", "/data/ziosk/settings/Settings_Global.xml",
+				"C:\\Users\\sagar\\Desktop\\Task\\Settings_Global.xml");
+
+	}
+
+	@Given("^zApp settings are set accordingly_TC1$")
+	public void zapp_settings_are_set_accordingly(DataTable arg1) throws Throwable {
+		// Update using xml methods
+		xml.updateXML("app.orderentry.supportcreatecheck", "false",
+				"C:\\Users\\sagar\\Desktop\\Task\\zApp_App_Android.xml");
+		xml.updateXML("app.dui3d.cartrequirescheckopen", "true",
+				"C:\\Users\\sagar\\Desktop\\Task\\zApp_App_Android.xml");
+		xml.updateXML("cart.showcart", "true", "C:\\Users\\sagar\\Desktop\\Task\\zApp_App_Android.xml");
+		xml.updateXML("cart.showcallserver", "true", "C:\\Users\\sagar\\Desktop\\Task\\zApp_App_Android.xml");
+		xml.updateXML("cart.showreorder", "true", "C:\\Users\\sagar\\Desktop\\Task\\zApp_App_Android.xml");
+		xml.updateXML("app.dui3d.usecartwidget", "true", "C:\\Users\\sagar\\Desktop\\Task\\zApp_App_Android.xml");
+		xml.updateXML("Global.POSAddress", "192.168.33.8:7720", "C:\\Users\\sagar\\Desktop\\Task\\Settings_Global.xml");
+
+		// uploading file back to server
+		fz.putFile("192.168.127.170", "C:\\Users\\sagar\\Desktop\\Task\\zApp_App_Android.xml",
+				"/data/ziosk/settings/zApp_App_Android.xml");
+		fz.putFile("192.168.127.170", "C:\\Users\\sagar\\Desktop\\Task\\Settings_Global.xml",
+				"/data/ziosk/settings/Settings_Global.xml");
+		Thread.sleep(5000);
+
+		// kill all processes on device
+		adb.kill();
+	}
+
+	@Given("^I Touch the device and wait for the device to time out_TC1$")
+	public void i_Touch_the_device_and_wait_for_the_device_to_time_out() throws Throwable {
+		// tap device on random location to activate screen
+		adb.tap(null, 0, 0);
+
+	}
+
+	@Then("^Device should timeout to landing page as expected_TC1$")
+	public void device_should_timeout_to_landing_page_as_expected() throws Throwable {
+		// Verify that UEID is not -1
+		if (fz.readFile("192.168.127.176", "/data/log/messages", "-1"))
+			System.out.println("UEID is -1");
+		else
+			System.out.println("UEID is not -1");
+		Thread.sleep(61000);
+
+	}
+
+	@And("^On Filezilla I navigate to /data/log and verify logs from device_TC1$")
+	public void on_Filezilla_I_navigate_to_data_log() throws Throwable {
+		// read file again and verify that UEID is -1
+		if (fz.readFile("192.168.127.176", "/data/log/messages", "-1"))
+			System.out.println("UEID is -1");
+		else
+			System.out.println("UEID is not -1");
+
+	}
+
+	@And("^I Select order entry button_TC1$")
+	public void i_Select_order_entry_button() throws Throwable {
+		// adb command to tap on Order Entry
+		adb.tap("OE.png", 0, 0);
+
+	}
+
+	@Then("^Order Entry portals should be launched_TC1$")
+	public void order_Entry_portals_should_be_launched() throws Throwable {
+		// Validation step
+
+	}
+
+	@And("^I Select No params_TC1$")
+	public void i_Select_No_params() throws Throwable {
+		// adb command to tap on No Params
+		adb.tap("NP.png", 0, 0);
+
+	}
+
+	@Then("^I verify I am in OrderEntry Tab_TC1$")
+	public void i_verify_I_am_in_OrderEntry_Tab() throws Throwable {
+		// Validation step
+	}
+
+	@And("^I Select desert_TC1$")
+	public void i_Select_desert() throws Throwable {
+
+		// adb command to tap on Dessert
+		adb.tap("drt.png", 0, 0);
+
+	}
+
+	@Then("^\"([^\"]*)\" button should be disabled_TC1$")
+	public void button_should_be_disabled(String arg1) throws Throwable {
+		// To check for presence of OrderThis
+		if (adb.verifyElementPresent("ot.png", 0, 0))
+			System.out.println("Test Failed, Element is Present");
+		else
+			System.out.println("Test Passed, Element is Not Available");
+
+	}
+
+	@And("^I Select cart widgets on desert screen_TC1$")
+	public void i_Select_cart_widgets_on_desert_screen() throws Throwable {
+		// To check for presence of cart
+		if (adb.verifyElementPresent("crt.png", 0, 0))
+			System.out.println("Test Failed, Element is Present");
+		else
+			System.out.println("Test Passed, Element is Not Available");
+
+	}
+
+	@Then("^Cart widgets should be grayed out and disabled when no check is open_TC1$")
+	public void cart_widgets_should_be_grayed_out_and_disabled_when_no_check_is_open() throws Throwable {
+		// Validation step
+
+	}
+
+}

@@ -1,0 +1,106 @@
+package com.qentelli.fast.stepdefs;
+
+import org.openqa.selenium.By;
+import org.junit.Assert;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import cucumber.api.PendingException;
+import cucumber.api.Scenario;
+import cucumber.api.java.After;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+
+public class AppiumStepDefs extends AppiumLib{
+	
+	
+
+	@Given("^I launch the \"([^\"]*)\" app$")
+	public void launchApp(String app) throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+		driver=getDriver(app);
+	}
+	
+	@Given("^I click \"([^\"]*)\" button$")
+	public void click(String ele) throws Throwable {
+	    driver.findElement(By.xpath(getObject(ele))).click();
+	}
+	
+	
+	@Given("^I enter text \"([^\"]*)\" in \"([^\"]*)\"$")
+	public void enterText(String value,String ele) throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+	    driver.findElement(By.xpath(getObject(ele))).sendKeys(value);
+	}
+	
+	@Given("^I swipe left by \"([^\"]*)\"$")
+	public void swipeLeft(String value) throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+	    
+	}
+	
+	@Given("^I swipe right by \"([^\"]*)\"$")
+	public void swipeRight(String value) throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+	    
+	}
+	
+	@Given("^I swipe up by \"([^\"]*)\"$")
+	public void swipeUp(String value) throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+	    
+	}
+	
+	@Given("^I swipe down by \"([^\"]*)\"$")
+	public void swipeDown(String value) throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+	    
+	}
+	
+	@Given("^I long tap on \"([^\"]*)\"$")
+	public void longTap(String value) throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+	    
+	}
+	
+	@Given("^I tap on \"([^\"]*)\".*$")
+	public void tap(String value) throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+		((AppiumDriver)driver).tap(1, 100, 100, 1);
+	}
+	
+	@Given("^I should see the text \"([^\"]*)\"$")
+	public void imageText(String value){
+		
+	}
+	
+	@Then("^I should see the app home page$")
+	public void appScreen(){
+		getScreenShot("home");
+		String mytext = readImageText("Result");
+		System.out.println(mytext);
+	}
+	
+	@Given("^I should see the result page with success message$")
+	public void ResultPage(){
+		
+		getScreenShot("Result");
+		String mytext = readImageText("Result");
+		System.out.println(mytext);
+		if(mytext.contains("Success")){
+			Assert.assertTrue("Succss text displayed", true);
+		}
+		else
+		{
+			Assert.assertFalse("Fail text displayed", true);
+		}
+	}
+	
+
+}

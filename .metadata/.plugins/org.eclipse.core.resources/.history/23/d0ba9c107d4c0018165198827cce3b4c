@@ -1,0 +1,33 @@
+package com.qentelli.fast.stepdefs;
+import org.junit.AfterClass;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
+//,@Checkwithemailclub,@CheckOpenwithEmailReceipt,@SplitByTwo,@MultipleCheckOpen
+@RunWith(Cucumber.class)
+@CucumberOptions(
+		features = {"src/test/resources/features"},
+		glue ={ "com.qentelli.fast.stepdefs"},
+		dryRun = false	,	tags={"@NoCheckOpen"},
+		strict = true,
+		format = {"pretty",
+			"html:target/cucumber-report/chrome",
+			"json:target/cucumber-report/chrome/cucumber.json",
+        	"junit:target/cucumber-report/chrome/cucumber.xml"})
+
+public class ZioskExecutor {
+		
+			public static WebDriver driver;
+			@AfterClass
+		public static void main(String[] args) {
+			System.setProperty("webdriver.chrome.driver", "D:\\Software\\chromedriver.exe");
+			WebDriver driver = new ChromeDriver();
+			//driver.get("http://www.google.com");
+			driver.navigate()
+					.to("D:\\AutoEver\\Ziosk 4 27 (1)\\Ziosk 4 27\\ziosk\\ziosk\\target\\cucumber-report\\chrome\\index.html");
+		}
+	
+	}
